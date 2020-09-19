@@ -10,8 +10,9 @@ import org.apache.poi.ss.usermodel.*;
 
 public class demo {
     public static void main(String[] args) throws InvalidFormatException {
+        FileInputStream fis = null;
         try {
-            FileInputStream fis = new FileInputStream("src/main/resources/user.xls");
+            fis = new FileInputStream("excel_op/src/main/resources/demo.xlsx");
 //            workbook=整个excel
             Workbook workbook = WorkbookFactory.create(fis);
             Sheet sheet = workbook.getSheetAt(0);
@@ -27,6 +28,15 @@ public class demo {
 
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            //关流
+            try {
+                if(fis != null) {
+                    fis.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
