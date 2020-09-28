@@ -4,9 +4,12 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
@@ -83,6 +86,29 @@ public class HttpUtils {
         HttpClient client = HttpClients.createDefault();
         //5、发送请求，获取响应对象
         HttpResponse response = client.execute(post);
+        //6、格式化响应对象 response = 响应状态码 + 响应头 + 响应体
+        printResponse(response);
+    }
+
+    /**
+     * 发送一个post请求
+     * @param url           接口地址
+     * @param params        接口参数
+     * @throws Exception
+     */
+    public static void jsonPatch(String url,String params) throws Exception {
+        //1、创建请求
+        HttpPatch patch = new HttpPatch(url);
+        //2、添加请求头
+        patch.setHeader("X-Lemonban-Media-Type","lemonban.v1");
+        patch.setHeader("Content-Type","application/json");
+        //3、添加请求体（参数）
+        StringEntity body = new StringEntity(params,"utf-8");
+        patch.setEntity(body);
+        //4、创建客户端
+        CloseableHttpClient client = HttpClients.createDefault();
+        //5、发送请求，获取响应对象
+        CloseableHttpResponse response = client.execute(patch);
         //6、格式化响应对象 response = 响应状态码 + 响应头 + 响应体
         printResponse(response);
     }
