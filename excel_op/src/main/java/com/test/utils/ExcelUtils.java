@@ -19,7 +19,7 @@ public class ExcelUtils {
         FileInputStream fis = null;
         Object[][] datas = null;
         try {
-            fis = new FileInputStream("excel_op/src/main/resources/cases_v1.xls");
+            fis = new FileInputStream("cases_v1.xls");
             Workbook workbook = WorkbookFactory.create(fis);
 //        获取sheet
             Sheet sheet = workbook.getSheet("用例");
@@ -39,7 +39,7 @@ public class ExcelUtils {
                 //                获取type
                 Cell typecell = row.getCell(3, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
                 typecell.setCellType(CellType.STRING);
-                String typecellValue = urlcell.getStringCellValue();
+                String typecellValue = typecell.getStringCellValue();
                 datas[i-1][1] = typecellValue;
 
                 //                获取Params
@@ -57,12 +57,17 @@ public class ExcelUtils {
                 System.out.println("url: "+urlCellValue + ",type:" + typecellValue +
                         ", params: " + ParamscellValue+",content-type:" + contenTypecellValue);
 
-
             }
-
+            return datas;
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                fis.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return datas;

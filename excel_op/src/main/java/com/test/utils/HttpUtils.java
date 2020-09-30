@@ -24,11 +24,12 @@ public class HttpUtils {
      *                  例如：http://api.lemonban.com/futureloan/member/${member_id}/info
      * @throws Exception
      */
-    public static void get(String url) throws Exception {
+    public static void jsonget(String url) throws Exception {
         //1、创建请求
         HttpGet get = new HttpGet(url);
         //2、添加请求头
         get.setHeader("X-Lemonban-Media-Type","lemonban.v1");
+        get.setHeader("Content-Type","application/json");
         //3、创建客户端
         HttpClient client = HttpClients.createDefault();
         //4、发送请求，获取响应对象
@@ -42,6 +43,7 @@ public class HttpUtils {
         HttpGet get = new HttpGet(url + "?" + params);
         //2、添加请求头
         get.setHeader("X-Lemonban-Media-Type","lemonban.v1");
+        get.setHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8");
         //3、创建客户端
         HttpClient client = HttpClients.createDefault();
         //4、发送请求，获取响应对象
