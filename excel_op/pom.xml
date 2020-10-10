@@ -72,6 +72,12 @@
             <version>6.10</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.72</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 

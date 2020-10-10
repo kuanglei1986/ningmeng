@@ -1,31 +1,19 @@
 package com.test.cases;
+import com.alibaba.fastjson.JSONObject;
 import com.test.utils.HttpUtils;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import com.test.utils.ExcelUtils;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Set;
 
 public class RegisterCase {
     @Test(dataProvider="datas")
     public void testRegister(String url, String type, String params, String contentType)
             throws Exception {
-        if ("json".equalsIgnoreCase(contentType)) {
-            if ("post".equalsIgnoreCase(type)) {
-                HttpUtils.jsonPost(url, params);
-            } else if ("get".equalsIgnoreCase(type)) {
-                HttpUtils.jsonget(url);
-            } else if ("patch".equalsIgnoreCase(type)) {
-                HttpUtils.jsonPatch(url, params);
-
-            }
-        } else if ("form".equalsIgnoreCase(contentType)) {
-            if ("post".equalsIgnoreCase(type)) {
-                HttpUtils.formPost(url, params);
-            } else if ("get".equalsIgnoreCase(type)) {
-                HttpUtils.formGet(url, params);
-            }
-        }
+       HttpUtils.call(url, type, params, contentType);
     }
 
     @DataProvider(name = "datas")

@@ -1,5 +1,6 @@
 package com.test.utils;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -15,6 +16,8 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Set;
 
 public class HttpUtils {
     /**
@@ -36,6 +39,52 @@ public class HttpUtils {
         HttpResponse response = client.execute(get);
         //5、格式化响应对象 response = 响应状态码 + 响应头 + 响应体
         printResponse(response);
+    }
+
+    public static String json2keyvalue(String json) {
+        HashMap<String,String> map = JSONObject.parseObject(json,HashMap.class);
+        //获取所有的key
+        Set<String> keySet = map.keySet();
+        //返回结果字符串
+        String result ="";
+        for(String key:keySet) {
+            String value = map.get(key);
+            result +=key +"=" + value + "&";
+        }
+        result = result.substring(0, result.length()-1);
+        System.out.println(result);
+        return result;
+
+    }
+
+    /**
+     * 发起http请求
+     * @param url
+     * @param type
+     * @param params
+     * @param contentType
+     * @throws Exception
+     */
+    public static void call(String url,String type, String params, String contentType) throws Exception {
+        if ("json".equalsIgnoreCase(contentType)) {
+            if ("post".equalsIgnoreCase(type)) {
+                HttpUtils.jsonPost(url, params);
+            } else if ("get".equalsIgnoreCase(type)) {
+                HttpUtils.jsonget(url);
+            } else if ("patch".equalsIgnoreCase(type)) {
+                HttpUtils.jsonPatch(url, params);
+
+            }
+        } else if ("form".equalsIgnoreCase(contentType)) {
+            if ("post".equalsIgnoreCase(type)) {
+//                json参数转成form类型的参数
+                params = json2keyvalue(params);
+                HttpUtils.formPost(url, params);
+            } else if ("get".equalsIgnoreCase(type)) {
+                HttpUtils.formGet(url, params);
+            }
+        }
+
     }
 
     public static void formGet(String url,String params) throws Exception {
