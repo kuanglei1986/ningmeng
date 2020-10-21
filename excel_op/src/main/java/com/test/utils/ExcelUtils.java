@@ -1,6 +1,7 @@
 package com.test.utils;
 
 import com.test.pojo.API;
+import com.test.pojo.Case;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.FileInputStream;
@@ -11,42 +12,53 @@ import java.util.Arrays;
 import java.util.List;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
+import com.test.constants.constants;
 
 public class ExcelUtils {
     public static void main(String[] args) throws Exception {
-        read();
+//        read(0, constants.EXCEL_PATH,API.class);
+      read(1, constants.EXCEL_PATH,Case.class);
     }
+
 
     /**
      * 读取excel数据并封装到指定对象中
-     * @param sheetIndex        开始sheet索引
-     * @param sheetNum          sheet个数
-     * @param clazz             excel映射类字节对象
+     *
+     * @param sheetIndex 开始sheet索引
+     * @param sheetNum   sheet个数
+     * @param clazz      excel映射类字节对象
      * @return
      */
-    public static void read() throws Exception {
+
+    public static <E> List<E> read(int sheetIndex,String path, Class clazz) throws Exception {
 //        URL filepath = ExcelUtils.class.getResource("/cases_v1.xls");
         //1、excel文件流
-        FileInputStream fis = new FileInputStream("excel_op\\cases_v1.xls");
-//        FileInputStream fis = new FileInputStream(String.valueOf(filepath));
+        FileInputStream fis = new FileInputStream(path);
+////        FileInputStream fis = new FileInputStream(String.valueOf(filepath));
         //2、easypoi导入参数
         ImportParams params = new ImportParams();
+        //从第0个sheet开始读取
+        params.setStartSheetIndex(sheetIndex);
+        //读取1个sheet
+        params.setSheetNum(1);
         //3、导入 importExcel(execl文件流，映射关系字节码对象，导入参数)
-        List<API> list = ExcelImportUtil.importExcel(fis, API.class,params);
+        List<E> list = ExcelImportUtil.importExcel(fis, clazz, params);
         System.out.println(list.size());
-        for(API api:list) {
-            System.out.println(api);
+        for (E e : list) {
+            System.out.println(e);
         }
-
-        //当前类的绝对路径
-//        System.out.println(ExcelUtils.class.getResource("/cases_v1.xls").getFile());
-//        指定CLASSPATH文件的绝对路径
-//        System.out.println(ExcelUtils.class.getResource(cp).getFile());
-
-
-
-    }
-
+//        //4、关流
+        fis.close();
+        return list;
+//
+//        //当前类的绝对路径
+////        System.out.println(ExcelUtils.class.getResource("/cases_v1.xls").getFile());
+////        指定CLASSPATH文件的绝对路径
+////        System.out.println(ExcelUtils.class.getResource(cp).getFile());
+//
+//
+//
+//    }
 
 
 //    public static Object[][] read() throws IOException {
@@ -106,4 +118,6 @@ public class ExcelUtils {
 //
 //        return datas;
 //    }
+    }
+
 }
