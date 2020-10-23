@@ -4,7 +4,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
 
 public class Case {
     @Excel(name = "用例编号")
-    private int id;
+    private String id;
     @Excel(name = "用例描述")
     private String desc;
     @Excel(name = "参数")
@@ -12,11 +12,11 @@ public class Case {
     @Excel(name = "接口编号")
     private String apiId;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

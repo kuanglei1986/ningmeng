@@ -4,20 +4,31 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
 
 public class API {
     //CaseId
-    @Excel(name = "CaseId(用例编号)")
-    private int id;
+    @Excel(name = "Id(接口编号)")
+    private String id;
     @Excel(name = "Name(接口名)")
     private String name;
     @Excel(name = "Url(接口地址)")
     private String url;
     @Excel(name = "Type(接口提交类型)")
     private String method;
+    @Excel(name = "Content-Type")
+    private String contentType;
 
-    public int getId() {
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

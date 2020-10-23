@@ -1,24 +1,19 @@
 package com.test.utils;
 
-import com.test.pojo.API;
-import com.test.pojo.Case;
-import org.apache.poi.ss.usermodel.*;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URL;
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.test.constants.constants;
+import com.test.pojo.API;
+import com.test.pojo.Case;
 
-public class ExcelUtils {
-    public static List<API> apiList = ExcelUtils.read(0,API.class);
-    public static List<Case> caseList = ExcelUtils.read(1,Case.class);
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ExcelUtils2 {
+    public static List<API> apiList = ExcelUtils2.read(0,API.class);
+    public static List<Case> caseList = ExcelUtils2.read(1,Case.class);
 
     public static void main(String[] args) throws Exception {
 //        for(API api:apiList) {
@@ -28,36 +23,25 @@ public class ExcelUtils {
 //        for(Case c:caseList) {
 //            System.out.println(c);
 //        }
-        Object datas[][] = getAPIandCaseByApild("1");
-        for(Object[] objects:datas) {
-            for(Object o:objects) {
-                System.out.println(o);
-            }
-        }
+        getAPIandCaseByApild("1");
 
-//
-//        for(API api:apiList) {
-//            String id = api.getId();
-//            System.out.println("1".equals(id));
-//            System.out.println(api.getId());
-//        }
+
 
     }
 
 //    从已经读取好的所有List<API>和所有List<Case>*两个集合中获取符合条件的数据。
-    public static Object[][] getAPIandCaseByApild(String apild) {
+    public static void getAPIandCaseByApild(String apild) {
         //需要Api对象
         API wantAPI = null;
 //        需要case集合
         List<Case> wantCaseList = new ArrayList<Case>();
-
 //        匹配API对象
         for(API api:apiList) {
             //apild和api集合中的apild相等则返回
             if(apild.equals(api.getId())) {
-//                System.out.println("api="+ api);
+                System.out.println("api= "+ api);
                 wantAPI = api;
-//                System.out.println("wantAPI"+ wantAPI);
+                System.out.println("wantAPI= "+ wantAPI);
                 break;
             }
 
@@ -65,23 +49,15 @@ public class ExcelUtils {
 //        匹配case对象
         for(Case c:caseList) {
             if(apild.equals(c.getApiId())) {
+                System.out.println("c= " + c);
                 wantCaseList.add(c);
+                System.out.println("wantCaseList= " + wantCaseList);
             }
         }
 
-        //wantCaseList和wantAPI是有关联的,他们的apild是相等的
-//        object[][] datas = {[api,casel}, {api, case2}, {api, case3}};
-        Object[][] datas = new Object[wantCaseList.size()][2];
 
-        //往二维数组中存储api和case数据,存几次由case确定。
-        for (int i=0; i < wantCaseList.size(); i++) {
-//            System.out.println(i);
-//            System.out.println(wantAPI);
-            datas[i][0] = wantAPI;
-            datas[i][1] = wantCaseList.get(i);
-        }
 
-        return datas;
+
     }
 
 
